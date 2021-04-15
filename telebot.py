@@ -39,6 +39,8 @@ def photo(update, context):
 
 
 def date_cal(update, context):
+    if type(context.args[1]) == str:
+        print("문자열", context.args[1])
     start = date(int(context.args[0][0:4]), int(context.args[0][5:6]),
                  int(context.args[0][6:8]))
     days = (date.today() - start).days
