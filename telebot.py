@@ -1,7 +1,9 @@
+import re
 import time
 import yaml
 import random
 import pyautogui
+from datetime import date, timedelta
 from selenium import webdriver
 from googleapiclient.discovery import build
 from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
@@ -36,6 +38,22 @@ def photo(update, context):
     print(temp)
 
 
+def date_cal(update, context):
+    start = date(int(context.args[0][0:4]), int(context.args[0][5:6]),
+                 int(context.args[0][6:8]))
+    days = (date.today() - start).days
+    per = round(days / 730 * 100)
+    context.bot.send_message(chat_id=update.
+                             effective_chat.id, text="내일채움 "
+                                                     "시작일로 부터 "
+                                                     "" + str(days)
+                                                     + "일 지났고, "
+                                                       "\n" +
+                                                     str(per)
+                                                     + " % "
+                                                       "완료하였습니다.")
+
+
 def weather(update, context):
     str_ = "".join(context.args)
     print(str_)
@@ -60,19 +78,23 @@ def weather(update, context):
 
 def help_(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
-                             text="1.이미지 검색   '/p 검색할 이미지' \n"
-                                  "2.날씨 검색   '/w 지역+날씨 \n"
-                                  "3.도움말   '/h'\n")
+                             text="🕵️‍이미지 검색   '/p 검색할 이미지' \n"
+                                  "☀️날씨 검색   '/w 지역+날씨 \n"
+                                  "📆내일채움공제   /date yyyymmdd\n"
+                                  "😧도움말   '/h'\n"
+                                  )
 
 
 def main():
     weather_handler = CommandHandler('w', weather)
     photo_handler = CommandHandler('p', photo)
+    date_handler = CommandHandler('date', date_cal)
     help_handler = CommandHandler('h', help_)
     echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
     dispatcher.add_handler(echo_handler)
     dispatcher.add_handler(photo_handler)
     dispatcher.add_handler(help_handler)
+    dispatcher.add_handler(date_handler)
     dispatcher.add_handler(weather_handler)
     updater.start_polling()
     updater.idle()
