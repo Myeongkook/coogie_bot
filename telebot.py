@@ -1,10 +1,10 @@
-from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
-import random
-from googleapiclient.discovery import build
+import time
 import yaml
+import random
 import pyautogui
 from selenium import webdriver
-import time
+from googleapiclient.discovery import build
+from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 
 with open('key.yml') as f:
     data = yaml.load(f, Loader=yaml.FullLoader)
