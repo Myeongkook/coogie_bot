@@ -91,19 +91,6 @@ def date_cal(update, context):
 
 def weather(update, context):
     str_ = "".join(context.args)
-    print(str_)
-    # if '날씨' in str_:
-    #     url = f'https://search.naver.com/search.naver?query=%s' % str_
-    #     driver = webdriver.Chrome('./chromedriver.exe')
-    #     driver.get(url)
-    #     time.sleep(3)
-    #     pyautogui.screenshot("./today.png", region=(50, 390, 675, 375))
-    #     driver.quit()
-    #     context.bot.sendPhoto(chat_id=update.effective_chat.id,
-    #                           photo=open(
-    #                               r'C:\Users\Myeongkook Park\PycharmProjects\TestPython\telebot\today.png',
-    #                               'rb'))
-    # else:
     return context.bot.send_message(chat_id=update.effective_chat.id,
                                         text="저는 일안해요")
 
