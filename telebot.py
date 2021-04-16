@@ -15,16 +15,12 @@ updater = Updater(token=token_, use_context=True)
 dispatcher = updater.dispatcher
 
 flag_ = 0
-member = ['교봉주임님', '수연주임님', '상민주임님', '명국주임님']
 
 
 def echo(update, context):
-    if flag_ == 0:
-        if '힘들다' in update.message.text or '졸립다' in update.message.text:
-            context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=open(r'C:\Users\Myeongkook Park\PycharmProjects\TestPython\telebot\download.jpg', 'rb'))
-        elif update.message.text == '쿠기야 조용해':
-            print(flag_)
-            context.bot.send_message(chat_id=update.effective_chat.id, text='네...')
+    if '힘들다' in update.message.text or '졸립다' in update.message.text:
+        context.bot.sendPhoto(chat_id=update.effective_chat.id, photo=open(r'C:\Users\Myeongkook Park\PycharmProjects\TestPython\telebot\download.jpg', 'rb'))
+
 
 
 def random_(update, context):
