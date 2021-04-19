@@ -60,7 +60,7 @@ def photo(update, context):
     result = service.cse().list(
         q=temp,
         cx=data['key']['google']['cx'],
-        num=5,
+        num=3,
         searchType='image',
     ).execute()
     atai = random.randrange(0, 5)
