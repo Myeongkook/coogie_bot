@@ -3,6 +3,8 @@ from datetime import datetime
 from googleapiclient.discovery import build
 from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 from datetime import date
+import requests
+from bs4 import BeautifulSoup
 
 import logging.handlers
 
@@ -108,6 +110,16 @@ def date_cal(update, context):
                                                        "완료하였습니다.")
 
 
+def stock(update, context):
+    URL = "https://www.google.com/search?q={query}+주가".format(
+        query=context.args[0])
+    soup = BeautifulSoup(requests.get(URL).content, 'html.parser')
+    select = soup.select('.kCrYT')
+    split = select[11].getText().split(" ")
+    context.bot.send_message(chat_id=update.effective_chat.id,
+                             text=context.args[0] + "의 주식정보입니다.\n" + "현재가 : " + split[0] + " " + split[9] + " " + "전날대비 :" + split[1])
+
+
 def weather(update, context):
     str_ = "".join(context.args)
     print(str_)
@@ -120,6 +132,7 @@ def help_(update, context):
                              text="🕵️‍이미지 검색   '/p 검색할 이미지' \n"
                                   "📆월급날 계산   '/payday' \n"
                                   "📆내일채움공제   '/date yyyymmdd'\n"
+                                  "💰주식조회      '/s 검색할 주식\n"
                                   "😧도움말   '/h'\n"
                              )
 
@@ -183,6 +196,7 @@ def main():
         help_handler = CommandHandler('h', help_)
         random_handler = CommandHandler('random', random_)
         payday_handler = CommandHandler('payday', payday)
+        stock_handler = CommandHandler('s', stock)
         echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
         dispatcher.add_handler(echo_handler)
         dispatcher.add_handler(photo_handler)
@@ -191,6 +205,7 @@ def main():
         dispatcher.add_handler(weather_handler)
         dispatcher.add_handler(random_handler)
         dispatcher.add_handler(payday_handler)
+        dispatcher.add_handler(stock_handler)
         updater.start_polling()
         updater.idle()
     except Exception as e:
