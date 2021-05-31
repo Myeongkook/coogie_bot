@@ -95,7 +95,7 @@ def date_cal(update, context):
     str_date = datetime.strptime(context.args[0], '%Y%m%d').date()
     days = (date.today() - str_date).days
     per = round(days / 730 * 100)
-    if days < 0 :
+    if days < 0:
         context.bot.send_message(chat_id=update.
                                  effective_chat.id, text="잘못된 날짜가 입력됐어요.")
         return
@@ -115,9 +115,20 @@ def stock(update, context):
         query=context.args[0])
     soup = BeautifulSoup(requests.get(URL).content, 'html.parser')
     select = soup.select('.kCrYT')
-    split = select[11].getText().split(" ")
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text=context.args[0] + "의 주식정보입니다.\n" + "현재가 : " + split[0] + " " + split[9] + " " + "전날대비 :" + split[1])
+    try:
+        split = select[11].getText().split(" ")
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text=context.args[
+                                          0] + "의 주식정보입니다.\n" + "현재가 : " +
+                                      split[0] + " " + split[
+                                          -3] + " " + "전날대비 :" + split[1])
+    except IndexError:
+        split = select[10].getText().split(" ")
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text=context.args[
+                                          0] + "의 주식정보입니다.\n" + "현재가 : " +
+                                      split[0] + " " + split[
+                                          -3] + " " + "전날대비 :" + split[1])
 
 
 def weather(update, context):
@@ -163,8 +174,8 @@ def payday(update, context):
     if date.today().day > b:
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=str(datetime.today().month + 1) + '월은 ' +
-                                  str(b) + '일이 월급날입니다\n''월급까지 ' +
-                                  str(result.days) + "일 남았습니다.")
+                                      str(b) + '일이 월급날입니다\n''월급까지 ' +
+                                      str(result.days) + "일 남았습니다.")
     else:
         if int(result.days) == 1:
             context.bot.send_message(chat_id=update.effective_chat.id,
@@ -184,8 +195,8 @@ def payday(update, context):
             return 0
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=str(datetime.today().month) + '월은 ' +
-                                  str(b) + '일이 월급날입니다\n''월급까지 ' +
-                                  str(result.days) + "일 남았습니다.")
+                                      str(b) + '일이 월급날입니다\n''월급까지 ' +
+                                      str(result.days) + "일 남았습니다.")
 
 
 def main():
