@@ -69,10 +69,10 @@ def photo(update, context):
     for i in context.args:
         temp = temp + i + " "
     service = build("customsearch", "v1",
-                    developerKey='AIzaSyC7PUDhgSLOmMdqHYO1I1qzdJFa2486Q-s')
+                    developerKey='TokenKey')
     result = service.cse().list(
         q=temp,
-        cx='5173d767a8e36d1a9',
+        cx='cx key',
         num=3,
         searchType='image',
     ).execute()
