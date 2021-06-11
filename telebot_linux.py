@@ -18,7 +18,7 @@ fileHandler = logging.FileHandler('/home/ubuntu/telebot/log.txt')
 fileHandler.setFormatter(formatter)
 log.addHandler(fileHandler)
 
-token_ = '1723844569:AAHboDpNc_e6KPGwX_bU7uRXfK_kK0MD9kw'
+token_ = 'token'
 updater = Updater(token=token_, use_context=True)
 now = datetime.now()
 dispatcher = updater.dispatcher
